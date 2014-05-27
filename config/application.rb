@@ -17,6 +17,8 @@ end
 
 module Hsa
   class Application < Rails::Application
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
 
     # don't generate RSpec tests for views and helpers
     config.generators do |g|

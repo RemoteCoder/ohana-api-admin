@@ -46,3 +46,4 @@ gem 'newrelic_rpm'
 
 gem "devise" # for authentication
 gem "cancan" # for authorization
+gem 'thin'

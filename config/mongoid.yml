@@ -1,7 +1,7 @@
 production:
   sessions:
     default:
-      uri: <%= ENV['MONGOLAB_URI'] %>
+      #uri: <%= ENV['MONGOLAB_URI'] %>
       database: hsa_development
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)

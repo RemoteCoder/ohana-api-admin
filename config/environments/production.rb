@@ -79,3 +79,4 @@ Hsa::Application.configure do
   config.active_support.deprecation = :notify
 
 end
+ENV['DEVISE_KEY'] = '58a878c88fb33895b822b291eddd661f3b677cc2fab6da5b577028391db5cb0a56c808422fb05963b4bb4354ddb4d181389cfb8708da98ac1cd71e277e594c6b'

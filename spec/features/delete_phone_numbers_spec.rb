@@ -1,6 +1,6 @@
 require "spec_helper"
 
-feature "Delete a location's phone numbers" do
+feature "Delete a location's phone numbers", :vcr do
   background do
     login_admin
   end
@@ -10,7 +10,7 @@ feature "Delete a location's phone numbers" do
     expect(page).to_not have_link "Delete this number permanently"
   end
 
-  scenario "when location has one number", :js => true do
+  scenario "when location has one number", :js do
     visit_test_location
     click_link "Delete this number permanently"
     click_button "Save changes"

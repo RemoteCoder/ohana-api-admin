@@ -1,11 +1,17 @@
 # Ohana API Admin
 
-[![Stories in Ready](https://badge.waffle.io/codeforamerica/ohana-api-admin.png?label=ready)](https://waffle.io/codeforamerica/ohana-api-admin)
+[![Stories in Ready](https://badge.waffle.io/codeforamerica/ohana-api-admin.png?label=ready)](https://waffle.io/codeforamerica/ohana-api-admin) [![Build Status](https://travis-ci.org/codeforamerica/ohana-api-admin.svg?branch=master)](https://travis-ci.org/codeforamerica/ohana-api-admin)
 
-This is an admin interface for the data that is exposed by the [Ohana API](http://github.com/codeforamerica/ohana-api/). It allows organization members to sign up with their email address, and allows them to update the locations that belong to their organization.
+This is an example Rails app that shows how you can build an admin interface for the data that is exposed by the [Ohana API](http://github.com/codeforamerica/ohana-api/). It allows organization members to sign up with their email address, and allows them to update the locations that belong to their organization.
 
 Once a user is signed up, they can be given "master admin" status
 by setting their "role" field to "admin". This is done by editing the role field directly in the MongoDB interface (via Mongolab if you are deploying to Heroku using this app's default configuration). This will allow the admin to access and update all the data.
+
+## Current status
+
+As of June 5, 2014, we have decided to merge the admin functionality into the [Ohana API](http://github.com/codeforamerica/ohana-api/) Rails app to make it easier to maintain. This repo will still remain available as a demo application that you can use to build an external admin interface. It is fully functional and works with the current Ohana API.
+
+As development of the API progresses, there will probably be more database fields supported, but they most likely won't be added to this repo. So, if you would like to be able to edit a certain field that's not currently available in this repo, you can either use the admin interface in the API app (once it's ready), or fork this repo and add the fields yourself in your own copy of the admin interface.
 
 ## Demo
 You can see a running version of the application at
@@ -14,7 +20,7 @@ You can see a running version of the application at
 ## Stack Overview
 
 * Ruby version 2.1.1
-* Rails version 3.2.16
+* Rails version 3.2.17
 * MongoDB with the Mongoid ORM
 * Testing Frameworks: RSpec, Factory Girl, Capybara
 
@@ -23,7 +29,7 @@ Please note that the instructions below have only been tested on OS X. If you ar
 
 ###Prerequisites
 
-#### Git, Ruby 2.1+, Rails 3.2.16+ (+ Homebrew on OS X)
+#### Git, Ruby 2.1+ (+ Homebrew on OS X)
 **OS X**: [Set up a dev environment on OS X with Homebrew, Git, RVM, Ruby, and Rails](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/)
 
 **Windows**: Try [RailsInstaller](http://railsinstaller.org), along with some of these [tutorials](https://www.google.com/search?q=install+rails+on+windows) if you get stuck.
@@ -47,6 +53,9 @@ Follow the Homebrew instructions for configuring MongoDB and starting it automat
 
 See the Downloads page on mongodb.org for steps to install on other systems: [http://www.mongodb.org/downloads](http://www.mongodb.org/downloads)
 
+#### PhantomJS (for running the specs locally)
+[Installation instructions](https://github.com/jonleighton/poltergeist#installing-phantomjs) for Mac, Linux, and Windows.
+
 ### Clone the app on your local machine.
 
 From the Terminal, navigate to the directory into which you'd like to create a copy of the Ohana API Admin source code. For instance, on OS X `cd ~` will place you in your home directory. Next download this repository into your working directory with:
@@ -58,16 +67,9 @@ From the Terminal, navigate to the directory into which you'd like to create a c
 
     script/bootstrap
 
-If you get a `permission denied` message, set the correct permissions:
-
-    chmod -R 755 script
-
-then run `script/bootstrap` again.
-
 ### Set up the environment variables
-Inside the `config` folder, you will find `application.example.yml`.
-Rename it to `application.yml` and double check that it is in your
-`.gitignore` file (it should be by default).
+Inside the `config` folder, you will find a file called `application.example.yml`.
+Copy its contents to a new file called `application.yml` (which is gitignored by default).
 
 By default, the app is configured to point to the
 [demo API](http://ohana-api-demo.herokuapp.com/api).
@@ -93,20 +95,25 @@ The bootstrap script you ran earlier created three users for you that you can si
 
 The third user is there to let you try the interface as a master admin, but you can set any of the three users as an admin by setting the "role" field to "admin". To do that, you need direct access to your Mongo database. The easiest way to view and update Mongo data is with a GUI like [one of these](http://docs.mongodb.org/ecosystem/tools/administration-interfaces/).
 
+### Pagination
+To see more than one page of results, add the `page` parameter to the URL.
+For example, to go to the second page of results, go to [http://localhost:3000/locations?page=2](http://localhost:3000/locations?page=2)
+
 ### Test the app
 Run tests locally with this simple command:
 
     rspec
 
-For faster tests (and many other rails commands, like rake):
+For faster tests (optional):
 
     gem install zeus
     zeus start #in a separate Terminal window or tab
     zeus rspec spec
 
+Read more about [Zeus](https://github.com/burke/zeus).
+
 To see the actual tests, browse through the [spec](https://github.com/codeforamerica/ohana-api-admin/tree/master/spec) directory.
 
-The tests will take around 3 to 5 minutes to run. Note that a browser window will open during the integration tests as some of them use the Selenium web driver.
 
 ## Deploying to Heroku
 First, you need to [deploy the Ohana API to Heroku](https://github.com/codeforamerica/ohana-api/wiki/How-to-deploy-the-Ohana-API-to-your-Heroku-account). Then, create a new app on Heroku for the Admin site. Run this command from the root directory of your local copy of this repo:

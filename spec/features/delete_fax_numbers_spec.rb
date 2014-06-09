@@ -1,6 +1,6 @@
 require "spec_helper"
 
-feature "Delete a location's fax numbers" do
+feature "Delete a location's fax numbers", :vcr do
   background do
     login_admin
   end
@@ -10,7 +10,7 @@ feature "Delete a location's fax numbers" do
     expect(page).to_not have_link "Delete this fax number permanently"
   end
 
-  scenario "when location has one fax number", :js => true do
+  scenario "when location has one fax number", :js do
     visit_test_location
     click_link "Delete this fax number permanently"
     click_button "Save changes"
